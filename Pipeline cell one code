@@ -1,0 +1,21 @@
+Updated code for Pipeline cell 1:
+
+import dlt
+from pyspark.sql.functions import col
+
+@dlt.table(
+    comment="COVID sample dataset. This data was ingested from the COVID-19 Data Repository by the Center for Systems Science and Engineering (CSSE) at Johns Hopkins University."
+)
+def raw_covid_data():
+    return (
+        spark.read.format("csv")
+        .option("header", True)
+        .load("dbfs:/FileStore/tables/covid_data.csv")
+        .select(
+            col("Last_Update"),
+            col("Country_Region"),
+            col("Confirmed"),
+            col("Deaths"),
+            col("Recovered")
+        )
+    )
